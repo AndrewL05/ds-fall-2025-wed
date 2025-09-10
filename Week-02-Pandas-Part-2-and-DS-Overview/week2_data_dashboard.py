@@ -16,6 +16,7 @@ Author: Data Science Student
 Date: 2025
 """
 
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -44,7 +45,8 @@ st.set_page_config(
 def load_food_data():
     """Load and preprocess the food choices data."""
     try:
-        df = pd.read_csv('data/food_coded.csv')
+        data_path = os.path.join(os.path.dirname(__file__), 'data', 'food_coded.csv')
+        df = pd.read_csv(data_path)
         
         # Clean and process the data
         # Convert weight to numeric, handling non-numeric values
@@ -69,7 +71,8 @@ def load_salary_data():
     """Load and preprocess the salary survey data."""
     try:
         # Load the TSV file
-        df = pd.read_csv('data/ask_a_manager_salary_survey_2021_responses.tsv', sep='\t')
+        data_path = os.path.join(os.path.dirname(__file__), 'data', 'ask_a_manager_salary_survey_2021_responses.tsv')
+        df = pd.read_csv(data_path, sep='\t')
         
         # Rename columns for easier handling
         df = df.rename(columns={
@@ -117,7 +120,8 @@ def load_salary_data():
 def load_airbnb_data():
     """Load and preprocess the Airbnb listings data."""
     try:
-        df = pd.read_csv('data/listings.csv')
+        data_path = os.path.join(os.path.dirname(__file__), 'data', 'listings.csv')
+        df = pd.read_csv(data_path)
         
         # Price is already numeric in this dataset, no conversion needed
         # df['price'] = df['price'].str.replace('$', '').str.replace(',', '').astype(float)
@@ -144,7 +148,8 @@ def load_airbnb_data():
 def load_cities_data():
     """Load the cities JSON data."""
     try:
-        with open('data/cities.json', 'r') as f:
+        data_path = os.path.join(os.path.dirname(__file__), 'data', 'cities.json')
+        with open(data_path, 'r') as f:
             cities_data = json.load(f)
         return pd.DataFrame(cities_data)
     except FileNotFoundError:
@@ -412,7 +417,7 @@ def main():
                 st.write("**After Cleaning - Price Column:**")
                 # Clean price data
                 airbnb_clean = airbnb_df.copy()
-                airbnb_clean['price'] = airbnb_clean['price'].str.replace('$', '').str.replace(',', '').astype(float)
+                # airbnb_clean['price'] = airbnb_clean['price'].str.replace('$', '').str.replace(',', '').astype(float)
                 
                 cleaned_price_sample = airbnb_clean[['price']].head(10)
                 st.dataframe(cleaned_price_sample)
