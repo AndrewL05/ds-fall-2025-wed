@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
 
 st.set_page_config(page_title="MovieLens Dashboard", layout="wide")
 st.title("MovieLens Data Analysis Dashboard")
 
 # Load data
-data_path = "data/movie_ratings.csv"
+data_path = os.path.join(os.path.dirname(__file__), "data", "movie_ratings.csv")
 df = pd.read_csv(data_path)
 
 # Sidebar filters
